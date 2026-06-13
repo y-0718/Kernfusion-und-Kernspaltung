@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+:root {
+  --color-white: #ffffff;
+  --color-blue: #0033a0;
+  --color-gray: #1a1a1a;
+  --color-orange: #ffb300;
+  --color-orange-strong: #ff8c00;
+  --color-soft-blue: #eef4ff;
+  --color-line: rgba(0, 51, 160, 0.14);
+  --shadow-soft: 0 24px 80px rgba(0, 51, 160, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-white);
+  color: var(--color-gray);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-white);
+  color: var(--color-gray);
+  font-family: var(--font-geist-sans), Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+::selection {
+  background: rgba(255, 179, 0, 0.35);
+}
+
+.presentation-scroll {
+  scroll-snap-type: y mandatory;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.presentation-slide {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(0, 51, 160, 0.12);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(20px);
+}
+
+.media-frame {
+  overflow: hidden;
+  border-radius: 6px;
+  background: #eef4ff;
+  box-shadow: 0 28px 90px rgba(0, 51, 160, 0.14);
+}
+
+.admin-field {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 51, 160, 0.18);
+  background: #ffffff;
+  padding: 0.7rem 0.8rem;
+  color: #1a1a1a;
+  outline: none;
+}
+
+.admin-field:focus {
+  border-color: #0033a0;
+  box-shadow: 0 0 0 3px rgba(0, 51, 160, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
