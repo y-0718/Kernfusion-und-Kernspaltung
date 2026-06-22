@@ -2,19 +2,13 @@ import type { PublicSlide, SlideContent, SlideDesign } from "@/lib/slides/types"
 import { SlideShell } from "@/components/presentation/slides/SlideShell";
 import { SlideText } from "@/components/presentation/slides/SlideText";
 
-type Props = {
-  slide: PublicSlide;
-  content: SlideContent;
-  design: SlideDesign;
-  index: number;
-  total: number;
-};
+type Props = { slide: PublicSlide; content: SlideContent; design: SlideDesign; index: number; total: number };
 
 export function TitleSlide({ slide, content, design }: Props) {
   return (
     <SlideShell design={design} backgroundUrl={slide.background_url} className="items-center">
       {design.spaceHero ? <SolarHero /> : null}
-      <div className="mx-auto flex min-h-[70vh] max-w-6xl items-center justify-center text-center">
+      <div className="relative z-10 mx-auto flex min-h-[70vh] max-w-6xl items-center justify-center text-center [text-shadow:0_2px_24px_rgba(26,26,26,.48)]">
         <SlideText title={slide.title} subtitle={slide.subtitle} content={content} design={{ ...design, textAlignment: "center" }} />
       </div>
     </SlideShell>
@@ -29,7 +23,7 @@ function SolarHero() {
         <div className="absolute inset-5 rounded-full bg-[radial-gradient(circle_at_35%_35%,#fff1b8,#ffb300_38%,#ff8c00_76%)]" />
         <div className="absolute -inset-12 rounded-full border border-[#FFB300]/20" />
       </div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0_26%,rgba(26,26,26,.4)_60%,#1A1A1A_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(26,26,26,.34)_0_30%,rgba(26,26,26,.48)_58%,#1A1A1A_100%)]" />
     </div>
   );
 }
