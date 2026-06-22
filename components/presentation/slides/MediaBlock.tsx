@@ -31,7 +31,7 @@ export function MediaBlock({ slide, mode = "image" }: MediaBlockProps) {
         viewport={{ amount: 0.45 }}
         transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
       >
-        <video src={url} controls playsInline className="h-full min-h-[420px] w-full object-cover" />
+        <video src={url} controls playsInline className="h-full min-h-[210px] w-full object-cover md:min-h-[420px]" />
       </motion.div>
     );
   }
@@ -47,7 +47,7 @@ export function MediaBlock({ slide, mode = "image" }: MediaBlockProps) {
       <motion.img
         src={url}
         alt={slide.primary_media_alt || ""}
-        className="h-full min-h-[420px] w-full object-cover"
+        className="h-full min-h-[210px] w-full object-cover md:min-h-[420px]"
         initial={reduceMotion ? false : { scale: 1.035 }}
         whileInView={{ scale: 1 }}
         viewport={{ amount: 0.45 }}
