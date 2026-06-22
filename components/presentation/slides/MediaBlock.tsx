@@ -23,18 +23,17 @@ export function MediaBlock({ slide, mode = "image" }: MediaBlockProps) {
     );
   }
 
-  const reveal = reduceMotion
-    ? undefined
-    : {
-        initial: { opacity: 0, scale: 1.045, clipPath: "inset(7% 5% 7% 5%)", filter: "blur(8px)" },
-        whileInView: { opacity: 1, scale: 1, clipPath: "inset(0% 0% 0% 0%)", filter: "blur(0px)" }
-      };
+  const revealInitial = reduceMotion
+    ? false
+    : { opacity: 0, scale: 1.045, clipPath: "inset(7% 5% 7% 5%)", filter: "blur(8px)" };
+  const revealVisible = { opacity: 1, scale: 1, clipPath: "inset(0% 0% 0% 0%)", filter: "blur(0px)" };
 
   if (mode === "video" || slide.primary_media_type === "video") {
     return (
       <motion.div
         className="media-frame bg-[#1A1A1A]"
-        {...reveal}
+        initial={revealInitial}
+        whileInView={revealVisible}
         viewport={{ amount: 0.45 }}
         transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
       >
@@ -46,7 +45,8 @@ export function MediaBlock({ slide, mode = "image" }: MediaBlockProps) {
   return (
     <motion.figure
       className="media-frame"
-      {...reveal}
+      initial={revealInitial}
+      whileInView={revealVisible}
       viewport={{ amount: 0.45 }}
       transition={{ duration: 0.95, ease: [0.16, 1, 0.3, 1] }}
     >
