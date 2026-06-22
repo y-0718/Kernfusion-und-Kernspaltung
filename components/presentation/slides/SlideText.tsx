@@ -25,12 +25,12 @@ export function SlideText({ title, subtitle, content, design, compact = false }:
       <h1 className={`${compact ? "text-4xl md:text-6xl lg:text-7xl" : "text-5xl md:text-7xl lg:text-8xl"} max-w-[15ch] font-semibold leading-[0.96]`}>
         {title}
       </h1>
-      {subtitle ? <p className="mt-6 max-w-[34ch] text-xl leading-snug opacity-[0.72] md:text-2xl">{subtitle}</p> : null}
-      {content.body ? <p className="mt-7 max-w-[52ch] text-lg leading-8 opacity-[0.75] md:text-xl">{content.body}</p> : null}
+      {subtitle ? <p className="mt-4 max-w-[34ch] text-lg leading-snug opacity-[0.72] md:mt-6 md:text-2xl">{subtitle}</p> : null}
+      {content.body ? <p className="mt-4 max-w-[52ch] text-base leading-6 opacity-[0.75] md:mt-7 md:text-xl md:leading-8">{content.body}</p> : null}
       {content.bullets?.length ? (
-        <ul className="mt-8 max-w-2xl text-left text-lg leading-7 md:text-xl">
+        <ul className="mt-5 max-w-2xl text-left text-base leading-6 md:mt-8 md:text-xl md:leading-7">
           {content.bullets.map((bullet, index) => (
-            <li key={bullet} className="flex gap-4 border-t border-[#0033A0]/12 py-3.5 first:border-t-0">
+            <li key={bullet} className="flex gap-3 border-t border-[#0033A0]/12 py-2.5 first:border-t-0 md:gap-4 md:py-3.5">
               <span className="mt-0.5 font-mono text-xs font-semibold" style={{ color: accent }}>0{index + 1}</span>
               <span className="opacity-[0.82]">{bullet}</span>
             </li>
