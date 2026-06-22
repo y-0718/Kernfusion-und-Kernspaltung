@@ -20,7 +20,7 @@ export function ScientificPlaceholder({ slide, mode, labels = [], className = ""
     <motion.div
       role="img"
       aria-label={`Wissenschaftliche Visualisierung: ${modeLabel[visualMode]}`}
-      className={`science-surface relative isolate min-h-[420px] overflow-hidden ${className}`}
+      className={`science-surface relative isolate min-h-[210px] overflow-hidden md:min-h-[420px] ${className}`}
       initial={reduceMotion ? false : { opacity: 0, scale: 1.025, filter: "blur(8px)" }}
       whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
       viewport={{ amount: 0.35 }}
