@@ -1,4 +1,5 @@
 import type { PublicSlide, SlideContent, SlideDesign } from "@/lib/slides/types";
+import { MediaBlock } from "@/components/presentation/slides/MediaBlock";
 import { SlideShell } from "@/components/presentation/slides/SlideShell";
 import { SlideText } from "@/components/presentation/slides/SlideText";
 
@@ -13,9 +14,16 @@ type Props = {
 export function InfographicSlide({ slide, content, design }: Props) {
   return (
     <SlideShell design={design} backgroundUrl={slide.background_url} className="items-center">
-      <div className="mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[.9fr_1.1fr]">
+      <div className="mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[.9fr_1.1fr] lg:gap-16">
         <SlideText title={slide.title} subtitle={slide.subtitle} content={content} design={design} compact />
-        <PhysicsVisualization type={content.visualization || String(slide.interactive_config?.type || "atom_structure")} labels={content.labels || []} />
+        {slide.primary_media_url ? (
+          <MediaBlock slide={slide} />
+        ) : (
+          <PhysicsVisualization
+            type={content.visualization || String(slide.interactive_config?.type || "atom_structure")}
+            labels={content.labels || []}
+          />
+        )}
       </div>
     </SlideShell>
   );
@@ -70,12 +78,8 @@ function ChainReactionVisual({ labels }: { labels: string[] }) {
   return (
     <div className="media-frame relative aspect-[1.25] bg-white">
       {[
-        ["18%", "50%"],
-        ["45%", "30%"],
-        ["45%", "70%"],
-        ["74%", "22%"],
-        ["76%", "54%"],
-        ["70%", "82%"]
+        ["18%", "50%"], ["45%", "30%"], ["45%", "70%"],
+        ["74%", "22%"], ["76%", "54%"], ["70%", "82%"]
       ].map(([left, top], index) => (
         <div key={`${left}-${top}`} className="absolute grid h-16 w-16 place-items-center rounded-full bg-[#EEF4FF] shadow-sm" style={{ left, top }}>
           <span className={`h-7 w-7 rounded-full ${index % 2 ? "bg-[#FFB300]" : "bg-[#0033A0]"}`} />
