@@ -18,9 +18,10 @@ export function PremiumSlideFrame({ children, transition = "fade", index }: Prem
     const frame = frameRef.current;
     const container = frame?.closest(".presentation-scroll") as HTMLElement | null;
     if (!frame || !container || reduceMotion) return;
+    const frameNode = frame;
 
     function updateProgress() {
-      const rect = frame.getBoundingClientRect();
+      const rect = frameNode.getBoundingClientRect();
       const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
       scrollProgress.set(Math.min(1, Math.max(0, progress)));
     }
