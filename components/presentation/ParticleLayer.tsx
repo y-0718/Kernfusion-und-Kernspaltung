@@ -39,8 +39,9 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    const canvasNode = canvas;
 
-    const context = canvas.getContext("2d");
+    const context = canvasNode.getContext("2d");
     if (!context) return;
 
     const ctx = context;
@@ -57,10 +58,10 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
       width = window.innerWidth;
       height = window.innerHeight;
-      canvas.width = width * ratio;
-      canvas.height = height * ratio;
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
+      canvasNode.width = width * ratio;
+      canvasNode.height = height * ratio;
+      canvasNode.style.width = `${width}px`;
+      canvasNode.style.height = `${height}px`;
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
     }
 
