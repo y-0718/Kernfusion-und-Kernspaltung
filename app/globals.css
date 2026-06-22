@@ -158,6 +158,7 @@ img, video { max-width: 100%; }
 @media (max-width: 767px) {
   .media-frame { box-shadow: 0 20px 60px rgba(0, 51, 160, 0.13); }
   .presentation-particle-canvas {
+    opacity: 0.18;
     -webkit-mask-image: linear-gradient(to right, #000 0%, transparent 24%, transparent 76%, #000 100%);
     mask-image: linear-gradient(to right, #000 0%, transparent 24%, transparent 76%, #000 100%);
   }
