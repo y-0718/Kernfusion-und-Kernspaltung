@@ -45,6 +45,7 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
 
     const ctx = context;
     const scrollContainer = document.querySelector<HTMLElement>(".presentation-scroll");
+    const scrollTarget: HTMLElement | Window = scrollContainer || window;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const lowPowerDevice = (navigator.hardwareConcurrency || 4) <= 4;
     const maxParticles = lowPowerDevice ? 34 : 64;
@@ -255,13 +256,13 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
     resize();
     spawn(lowPowerDevice ? 14 : 22);
     window.addEventListener("resize", resize);
-    (scrollContainer || window).addEventListener("scroll", onScroll, { passive: true });
+    scrollTarget.addEventListener("scroll", onScroll, { passive: true });
     frame = requestAnimationFrame(loop);
 
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", resize);
-      (scrollContainer || window).removeEventListener("scroll", onScroll);
+      scrollTarget.removeEventListener("scroll", onScroll);
     };
   }, [activeIndex]);
 
