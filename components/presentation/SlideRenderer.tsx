@@ -1,4 +1,5 @@
 import type { PublicSlide, SlideContent, SlideDesign, SlideSource } from "@/lib/slides/types";
+import { PremiumSlideFrame } from "@/components/presentation/PremiumSlideFrame";
 import { TitleSlide } from "@/components/presentation/slides/TitleSlide";
 import { SplitMediaTextSlide } from "@/components/presentation/slides/SplitMediaTextSlide";
 import { FullImageSlide } from "@/components/presentation/slides/FullImageSlide";
@@ -18,24 +19,41 @@ type SlideRendererProps = {
 export function SlideRenderer({ slide, sources, index, total }: SlideRendererProps) {
   const content = slide.content_json as SlideContent;
   const design = slide.design_json as SlideDesign;
+  const transition = String(slide.animation_json?.transition || "fade");
+  let renderedSlide: React.ReactNode;
 
   switch (slide.slide_type) {
     case "split_media_text":
-      return <SplitMediaTextSlide slide={slide} content={content} design={design} index={index} total={total} />;
+      renderedSlide = <SplitMediaTextSlide slide={slide} content={content} design={design} index={index} total={total} />;
+      break;
     case "full_image":
-      return <FullImageSlide slide={slide} content={content} design={design} index={index} total={total} />;
+      renderedSlide = <FullImageSlide slide={slide} content={content} design={design} index={index} total={total} />;
+      break;
     case "video":
-      return <VideoSlide slide={slide} content={content} design={design} index={index} total={total} />;
+      renderedSlide = <VideoSlide slide={slide} content={content} design={design} index={index} total={total} />;
+      break;
     case "comparison":
-      return <ComparisonSlide slide={slide} content={content} design={design} index={index} total={total} />;
+      renderedSlide = <ComparisonSlide slide={slide} content={content} design={design} index={index} total={total} />;
+      break;
     case "quote":
-      return <QuoteSlide slide={slide} content={content} design={design} index={index} total={total} />;
+      renderedSlide = <QuoteSlide slide={slide} content={content} design={design} index={index} total={total} />;
+      break;
     case "sources":
-      return <SourcesSlide slide={slide} content={content} design={design} sources={sources} index={index} total={total} />;
+      renderedSlide = (
+        <SourcesSlide slide={slide} content={content} design={design} sources={sources} index={index} total={total} />
+      );
+      break;
     case "infographic":
-      return <InfographicSlide slide={slide} content={content} design={design} index={index} total={total} />;
+      renderedSlide = <InfographicSlide slide={slide} content={content} design={design} index={index} total={total} />;
+      break;
     case "title":
     default:
-      return <TitleSlide slide={slide} content={content} design={design} index={index} total={total} />;
+      renderedSlide = <TitleSlide slide={slide} content={content} design={design} index={index} total={total} />;
   }
+
+  return (
+    <PremiumSlideFrame transition={transition} index={index}>
+      {renderedSlide}
+    </PremiumSlideFrame>
+  );
 }
