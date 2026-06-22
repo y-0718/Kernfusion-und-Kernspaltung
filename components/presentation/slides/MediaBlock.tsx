@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import type { PublicSlide } from "@/lib/slides/types";
+import { ScientificPlaceholder } from "@/components/presentation/slides/ScientificPlaceholder";
 
 type MediaBlockProps = {
   slide: PublicSlide;
@@ -13,14 +14,7 @@ export function MediaBlock({ slide, mode = "image" }: MediaBlockProps) {
   const url = slide.primary_media_url;
 
   if (!url) {
-    return (
-      <div className="media-frame grid min-h-[360px] place-items-center border border-dashed border-[#0033A0]/25 bg-[#EEF4FF] p-8 text-center text-[#0033A0]">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em]">Medienplatzhalter</p>
-          <p className="mt-3 text-lg text-[#1A1A1A]/70">Wähle im Admin-Bereich ein Bild oder Video aus.</p>
-        </div>
-      </div>
-    );
+    return <ScientificPlaceholder slide={slide} className="aspect-[1.28] h-full w-full" />;
   }
 
   const revealInitial = reduceMotion
