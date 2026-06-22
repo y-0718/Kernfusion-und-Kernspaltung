@@ -49,7 +49,7 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
     const scrollTarget: HTMLElement | Window = scrollContainer || window;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const lowPowerDevice = (navigator.hardwareConcurrency || 4) <= 4;
-    const maxParticles = lowPowerDevice ? 34 : 64;
+    const maxParticles = lowPowerDevice ? 18 : 28;
     let frame = 0;
     let width = 0;
     let height = 0;
@@ -133,7 +133,7 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
 
       if (Math.abs(delta) > 3) {
         const biasY = delta > 0 ? height * 0.67 : height * 0.33;
-        spawn(Math.min(7, Math.ceil(Math.abs(delta) / 70)), biasY);
+        spawn(Math.min(3, Math.ceil(Math.abs(delta) / 110)), biasY);
       }
     }
 
@@ -255,7 +255,7 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
     }
 
     resize();
-    spawn(lowPowerDevice ? 14 : 22);
+    spawn(lowPowerDevice ? 7 : 10);
     window.addEventListener("resize", resize);
     scrollTarget.addEventListener("scroll", onScroll, { passive: true });
     frame = requestAnimationFrame(loop);
@@ -267,5 +267,5 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
     };
   }, [activeIndex]);
 
-  return <canvas ref={canvasRef} className="pointer-events-none fixed inset-0 z-30 opacity-90" aria-hidden="true" />;
+  return <canvas ref={canvasRef} className="pointer-events-none fixed inset-0 z-[3] opacity-[0.38]" aria-hidden="true" />;
 }
