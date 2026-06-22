@@ -10,7 +10,7 @@ export function SplitMediaTextSlide({ slide, content, design }: Props) {
 
   return (
     <SlideShell design={design} backgroundUrl={slide.background_url} className="items-center">
-      <div className="mx-auto grid w-full max-w-7xl items-center gap-6 lg:grid-cols-[1.1fr_.9fr] lg:gap-10">
+      <div className="mx-auto grid w-full max-w-7xl items-center gap-5 lg:grid-cols-[1.1fr_.9fr] lg:gap-10">
         <div className={`order-1 max-h-[28vh] overflow-hidden lg:max-h-none ${mediaFirst ? "lg:order-1" : "lg:order-2"}`}>
           <MediaBlock slide={slide} />
         </div>
