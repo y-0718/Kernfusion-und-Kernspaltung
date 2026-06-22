@@ -16,7 +16,7 @@ export function PremiumSlideFrame({ children, transition = "fade", index }: Prem
 
   useEffect(() => {
     const frame = frameRef.current;
-    const container = frame?.closest<HTMLElement>(".presentation-scroll");
+    const container = frame?.closest(".presentation-scroll") as HTMLElement | null;
     if (!frame || !container || reduceMotion) return;
 
     function updateProgress() {
