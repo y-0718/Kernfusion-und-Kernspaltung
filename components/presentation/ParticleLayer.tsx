@@ -267,5 +267,5 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
     };
   }, [activeIndex]);
 
-  return <canvas ref={canvasRef} className="pointer-events-none fixed inset-0 z-[3] opacity-[0.38]" aria-hidden="true" />;
+  return <canvas ref={canvasRef} className="presentation-particle-canvas pointer-events-none fixed inset-0 z-[3] opacity-[0.38]" aria-hidden="true" />;
 }
