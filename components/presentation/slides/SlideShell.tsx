@@ -16,7 +16,7 @@ export function SlideShell({ design, children, className = "", backgroundUrl }: 
 
   return (
     <div
-      className={`relative flex min-h-screen overflow-hidden px-6 py-14 md:px-12 md:py-16 lg:px-[clamp(4rem,7vw,8rem)] ${className}`}
+      className={`relative flex min-h-screen overflow-hidden px-6 py-10 md:px-12 md:py-16 lg:px-[clamp(4rem,7vw,8rem)] ${className}`}
       style={{ backgroundColor: design.backgroundColor || "#FFFFFF", color: isDark ? "#FFFFFF" : "#1A1A1A" }}
     >
       {backgroundUrl ? (
