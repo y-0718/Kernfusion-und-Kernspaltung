@@ -89,6 +89,7 @@ export function resolveVisualMode(slide: PublicSlide): ScienceVisualMode {
   const configured = String(content.visualization || slide.interactive_config?.type || "").toLowerCase();
   const searchable = `${configured} ${slide.title} ${slide.subtitle || ""} ${content.body || ""}`.toLowerCase();
 
+  if (configured.includes("atom")) return "atom";
   if (searchable.includes("sonne") || searchable.includes("stern") || searchable.includes("solar")) return "solar";
   if (searchable.includes("spaltung") || searchable.includes("uran") || searchable.includes("chain")) return "fission";
   if (searchable.includes("fusion") || searchable.includes("deuter") || searchable.includes("trit")) return "fusion";
