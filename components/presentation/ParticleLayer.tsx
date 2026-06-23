@@ -50,7 +50,9 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const lowPowerDevice = (navigator.hardwareConcurrency || 4) <= 4;
     const maxParticles = lowPowerDevice ? 18 : 28;
+    const ambientParticles = lowPowerDevice ? 7 : 10;
     let frame = 0;
+    let tick = 0;
     let width = 0;
     let height = 0;
 
@@ -100,19 +102,21 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
       return 5 + Math.random() * 6;
     }
 
-    function spawn(amount: number, biasY = height / 2) {
+    function spawn(amount: number, biasY = height / 2, preferEdges = false) {
       if (reduceMotion) return;
 
       for (let index = 0; index < amount; index += 1) {
         const kind = pickKind();
         const depth = 0.35 + Math.random() * 0.9;
+        const useEdge = preferEdges || Math.random() < 0.72;
+        const edgeX = Math.random() < 0.5 ? Math.random() * width * 0.14 : width * (0.86 + Math.random() * 0.14);
         particlesRef.current.push({
-          x: Math.random() * width,
+          x: useEdge ? edgeX : Math.random() * width,
           y: biasY + (Math.random() - 0.5) * Math.min(280, height * 0.35),
           vx: (Math.random() - 0.5) * 0.7 * depth,
           vy: (Math.random() - 0.5) * 0.62 * depth,
           life: 0,
-          maxLife: 100 + Math.random() * 100,
+          maxLife: 320 + Math.random() * 260,
           size: particleSize(kind),
           depth,
           rotation: Math.random() * Math.PI * 2,
@@ -133,7 +137,7 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
 
       if (Math.abs(delta) > 3) {
         const biasY = delta > 0 ? height * 0.67 : height * 0.33;
-        spawn(Math.min(3, Math.ceil(Math.abs(delta) / 110)), biasY);
+        spawn(Math.min(3, Math.ceil(Math.abs(delta) / 110)), biasY, true);
       }
     }
 
@@ -240,6 +244,7 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
     function loop() {
       ctx.clearRect(0, 0, width, height);
       scrollVelocityRef.current *= 0.86;
+      tick += 1;
 
       particlesRef.current = particlesRef.current
         .map((particle) => ({
@@ -250,12 +255,16 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
         }))
         .filter((particle) => particle.life < particle.maxLife);
 
+      if (tick % 36 === 0 && particlesRef.current.length < ambientParticles) {
+        spawn(1, height * (0.18 + Math.random() * 0.64), true);
+      }
+
       particlesRef.current.forEach(drawParticle);
       frame = requestAnimationFrame(loop);
     }
 
     resize();
-    spawn(lowPowerDevice ? 7 : 10);
+    spawn(ambientParticles, height / 2, true);
     window.addEventListener("resize", resize);
     scrollTarget.addEventListener("scroll", onScroll, { passive: true });
     frame = requestAnimationFrame(loop);
