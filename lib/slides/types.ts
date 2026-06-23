@@ -125,6 +125,7 @@ export type PresentationSettings = {
 
 export type SlideContent = {
   eyebrow?: string;
+  chapterNumber?: string;
   body?: string;
   bullets?: string[];
   quote?: string;
@@ -138,6 +139,7 @@ export type SlideContent = {
 };
 
 export type SlideDesign = {
+  variant?: "standard" | "chapter_divider";
   backgroundColor?: string;
   textAlignment?: "left" | "center" | "right";
   mediaPosition?: "left" | "right";
