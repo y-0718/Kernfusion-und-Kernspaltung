@@ -1,6 +1,6 @@
 import type { PublicSlide, SlideContent, SlideDesign } from "@/lib/slides/types";
 import { MediaBlock } from "@/components/presentation/slides/MediaBlock";
-import { ScientificPlaceholder } from "@/components/presentation/slides/ScientificPlaceholder";
+import { InteractiveStage } from "@/components/presentation/slides/InteractiveStage";
 import { SlideShell } from "@/components/presentation/slides/SlideShell";
 import { SlideText } from "@/components/presentation/slides/SlideText";
 
@@ -20,7 +20,7 @@ export function InfographicSlide({ slide, content, design }: Props) {
         {slide.primary_media_url ? (
           <MediaBlock slide={slide} />
         ) : (
-          <ScientificPlaceholder slide={slide} labels={content.labels || []} className="aspect-[1.25]" />
+          <InteractiveStage slide={slide} content={content} />
         )}
       </div>
     </SlideShell>
