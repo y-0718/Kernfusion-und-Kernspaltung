@@ -49,12 +49,16 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
     const scrollTarget: HTMLElement | Window = scrollContainer || window;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const lowPowerDevice = (navigator.hardwareConcurrency || 4) <= 4;
-    const maxParticles = lowPowerDevice ? 18 : 28;
-    const ambientParticles = lowPowerDevice ? 7 : 10;
+    const maxParticles = 2;
+    const ambientParticles = lowPowerDevice ? 1 : 2;
     let frame = 0;
     let tick = 0;
     let width = 0;
     let height = 0;
+
+    particlesRef.current = [];
+    lastScrollRef.current = scrollContainer?.scrollTop || window.scrollY;
+    scrollVelocityRef.current = 0;
 
     function resize() {
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
@@ -137,7 +141,7 @@ export function ParticleLayer({ activeIndex }: ParticleLayerProps) {
 
       if (Math.abs(delta) > 3) {
         const biasY = delta > 0 ? height * 0.67 : height * 0.33;
-        spawn(Math.min(3, Math.ceil(Math.abs(delta) / 110)), biasY, true);
+        spawn(1, biasY, true);
       }
     }
 
