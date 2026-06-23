@@ -1,24 +1,29 @@
+"use client";
+
+import { motion, useReducedMotion, useTransform } from "framer-motion";
 import type { PublicSlide, SlideContent, SlideDesign } from "@/lib/slides/types";
 import { MediaBlock } from "@/components/presentation/slides/MediaBlock";
 import { SlideShell } from "@/components/presentation/slides/SlideShell";
+import { useSlideDepthProgress } from "@/components/presentation/SlideDepthContext";
 
-type Props = {
-  slide: PublicSlide;
-  content: SlideContent;
-  design: SlideDesign;
-  index: number;
-  total: number;
-};
+type Props = { slide: PublicSlide; content: SlideContent; design: SlideDesign; index: number; total: number };
 
 export function VideoSlide({ slide, content, design }: Props) {
+  const reduceMotion = useReducedMotion();
+  const depthProgress = useSlideDepthProgress();
+  const mediaY = useTransform(depthProgress, [0, 0.5, 1], reduceMotion ? [0, 0, 0] : [24, 0, -24]);
+  const titleY = useTransform(depthProgress, [0, 0.5, 1], reduceMotion ? [0, 0, 0] : [7, 0, -7]);
+
   return (
     <SlideShell design={design} backgroundUrl={slide.background_url} className="items-center">
-      <div className="mx-auto w-full max-w-6xl text-center">
-        <h1 className="text-4xl font-semibold md:text-6xl">{slide.title}</h1>
-        {slide.subtitle ? <p className="mt-4 text-2xl opacity-70">{slide.subtitle}</p> : null}
-        <div className="mt-10">
+      <div className="mx-auto w-full max-w-[86rem]">
+        <motion.div className="relative z-10 max-w-4xl" style={{ y: titleY }}>
+          <h1 className="text-4xl font-semibold leading-[0.96] md:text-6xl lg:text-7xl">{slide.title}</h1>
+          {slide.subtitle ? <p className="mt-4 max-w-2xl text-xl opacity-[0.7] md:text-2xl">{slide.subtitle}</p> : null}
+        </motion.div>
+        <div className="mt-7 md:mt-9">
           {content.videoEmbedUrl ? (
-            <div className="media-frame aspect-video bg-[#1A1A1A]">
+            <motion.div className="media-frame aspect-video bg-[#1A1A1A]" style={{ y: mediaY }}>
               <iframe
                 src={normalizeEmbedUrl(content.videoEmbedUrl)}
                 title={slide.title}
@@ -26,12 +31,10 @@ export function VideoSlide({ slide, content, design }: Props) {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
-            </div>
-          ) : (
-            <MediaBlock slide={slide} mode="video" />
-          )}
+            </motion.div>
+          ) : <MediaBlock slide={slide} mode="video" />}
         </div>
-        {content.body ? <p className="mx-auto mt-7 max-w-3xl text-xl leading-8 opacity-75">{content.body}</p> : null}
+        {content.body ? <p className="ml-auto mt-5 max-w-2xl text-lg leading-8 opacity-[0.72] md:text-xl">{content.body}</p> : null}
       </div>
     </SlideShell>
   );
