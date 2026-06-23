@@ -10,11 +10,11 @@ export function SplitMediaTextSlide({ slide, content, design }: Props) {
 
   return (
     <SlideShell design={design} backgroundUrl={slide.background_url} className="items-center">
-      <div className="mx-auto grid w-full max-w-7xl items-center gap-5 lg:grid-cols-[1.1fr_.9fr] lg:gap-10">
-        <div className={`order-1 max-h-[28vh] overflow-hidden lg:max-h-none ${mediaFirst ? "lg:order-1" : "lg:order-2"}`}>
+      <div className="mx-auto grid w-full max-w-[92rem] items-center gap-5 lg:grid-cols-[minmax(0,1.16fr)_minmax(0,.84fr)] lg:gap-[clamp(3rem,6vw,7rem)]">
+        <div className={`order-1 max-h-[28vh] overflow-hidden lg:max-h-none lg:overflow-visible ${mediaFirst ? "lg:order-1 lg:-ml-[5vw]" : "lg:order-2 lg:-mr-[5vw]"}`}>
           <MediaBlock slide={slide} />
         </div>
-        <div className={`order-2 ${mediaFirst ? "lg:order-2" : "lg:order-1"}`}>
+        <div className={`order-2 relative z-10 ${mediaFirst ? "lg:order-2" : "lg:order-1"}`}>
           <SlideText title={slide.title} subtitle={slide.subtitle} content={content} design={design} compact />
         </div>
       </div>
