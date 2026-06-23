@@ -113,7 +113,7 @@ export function PresentationDeck({ slides, sources, settings }: PresentationDeck
 
   return (
     <main className="relative h-screen overflow-hidden bg-white">
-      {settings?.enable_particles ? <ParticleLayer activeIndex={activeIndex} /> : null}
+      {settings?.enable_particles ? <ParticleLayer /> : null}
       <ProgressNavigation slides={slides} activeIndex={activeIndex} onSelect={goTo} />
 
       {!hasStarted ? (
