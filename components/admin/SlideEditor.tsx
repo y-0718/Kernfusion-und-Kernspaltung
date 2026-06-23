@@ -244,12 +244,22 @@ export function SlideEditor({ presentationId, slide, mediaAssets }: SlideEditorP
                     <option value="comparison">Vergleichsvisualisierung</option>
                   </Select>
                 </FieldWrapper>
-                <FieldWrapper label="Beschriftungen" hint="Eine Beschriftung pro Zeile.">
+                <FieldWrapper label="Interaktive Elemente" hint="Ein Zeitpunkt, eine Antwort oder eine Beschriftung pro Zeile.">
                   <Textarea
                     value={(content.labels || []).join("\n")}
                     onChange={(event) => updateContent({ labels: event.target.value.split("\n").filter(Boolean) })}
                   />
                 </FieldWrapper>
+                {String(form.interactive_config.type || content.visualization) === "quiz" ? (
+                  <FieldWrapper label="Richtige Antwort" hint="1 steht für die erste Antwort, 2 für die zweite usw.">
+                    <Input
+                      type="number"
+                      min="1"
+                      value={Number(form.interactive_config.correctIndex ?? 0) + 1}
+                      onChange={(event) => updateInteractiveConfig({ correctIndex: Math.max(0, Number(event.target.value) - 1) })}
+                    />
+                  </FieldWrapper>
+                ) : null}
               </div>
             ) : null}
           </div>
