@@ -185,6 +185,11 @@ export function SlideEditor({ presentationId, slide, mediaAssets }: SlideEditorP
             <FieldWrapper label="Haupttext">
               <Textarea value={content.body || ""} onChange={(event) => updateContent({ body: event.target.value })} />
             </FieldWrapper>
+            {design.variant === "chapter_divider" ? (
+              <FieldWrapper label="Kapitelnummer" hint="Zum Beispiel 01, 02 oder A.">
+                <Input value={content.chapterNumber || ""} onChange={(event) => updateContent({ chapterNumber: event.target.value })} />
+              </FieldWrapper>
+            ) : null}
             <FieldWrapper label="Stichpunkte" hint="Ein Stichpunkt pro Zeile.">
               <Textarea
                 value={(content.bullets || []).join("\n")}
@@ -236,6 +241,12 @@ export function SlideEditor({ presentationId, slide, mediaAssets }: SlideEditorP
         <section className="rounded-md border border-[#0033A0]/10 bg-white p-4 shadow-sm">
           <h2 className="text-lg font-semibold">Medien und Design</h2>
           <div className="mt-4 grid gap-4 md:grid-cols-2">
+            <FieldWrapper label="Foliendesign">
+              <Select value={design.variant || "standard"} onChange={(event) => updateDesign({ variant: event.target.value as SlideDesign["variant"] })}>
+                <option value="standard">Standard</option>
+                <option value="chapter_divider">Kapiteltrenner</option>
+              </Select>
+            </FieldWrapper>
             <MediaPicker label="Hauptmedium" value={form.primary_media_id} assets={mediaAssets} onChange={(value) => setForm((current) => ({ ...current, primary_media_id: value }))} />
             <MediaPicker label="Hintergrundmedium" value={form.background_media_id} assets={mediaAssets} onChange={(value) => setForm((current) => ({ ...current, background_media_id: value }))} filter="image" />
             <FieldWrapper label="Hintergrundfarbe">
