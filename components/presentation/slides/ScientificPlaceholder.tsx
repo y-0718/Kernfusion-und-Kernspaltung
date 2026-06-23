@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, useTransform } from "framer-motion";
 import type { PublicSlide, SlideContent } from "@/lib/slides/types";
+import { useSlideDepthProgress } from "@/components/presentation/SlideDepthContext";
 
 export type ScienceVisualMode = "atom" | "fission" | "fusion" | "solar" | "plasma" | "energy";
 
@@ -14,6 +15,8 @@ type ScientificPlaceholderProps = {
 
 export function ScientificPlaceholder({ slide, mode, labels = [], className = "" }: ScientificPlaceholderProps) {
   const reduceMotion = useReducedMotion();
+  const depthProgress = useSlideDepthProgress();
+  const visualY = useTransform(depthProgress, [0, 0.5, 1], reduceMotion ? [0, 0, 0] : [18, 0, -18]);
   const visualMode = mode || resolveVisualMode(slide);
 
   return (
@@ -25,6 +28,7 @@ export function ScientificPlaceholder({ slide, mode, labels = [], className = ""
       whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
       viewport={{ amount: 0.35 }}
       transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
+      style={{ y: visualY }}
     >
       <div className="science-grid absolute inset-0 opacity-60" />
       <div className="absolute -right-[15%] -top-[28%] h-[70%] w-[70%] rounded-full border border-[#0033A0]/10" />
