@@ -39,6 +39,7 @@ export function defaultContentForType(slideType: SlideType) {
 
 export function defaultDesign() {
   return {
+    variant: "full_bleed_image",
     backgroundColor: "#FFFFFF",
     textAlignment: "left",
     mediaPosition: "right",
