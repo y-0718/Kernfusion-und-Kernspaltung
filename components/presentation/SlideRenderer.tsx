@@ -9,6 +9,7 @@ import { QuoteSlide } from "@/components/presentation/slides/QuoteSlide";
 import { SourcesSlide } from "@/components/presentation/slides/SourcesSlide";
 import { InfographicSlide } from "@/components/presentation/slides/InfographicSlide";
 import { ChapterDividerSlide } from "@/components/presentation/slides/ChapterDividerSlide";
+import { FullBleedImageSlide } from "@/components/presentation/slides/FullBleedImageSlide";
 
 type SlideRendererProps = {
   slide: PublicSlide;
@@ -23,7 +24,9 @@ export function SlideRenderer({ slide, sources, index, total }: SlideRendererPro
   const transition = String(slide.animation_json?.transition || "fade");
   let renderedSlide: React.ReactNode;
 
-  if (design.variant === "chapter_divider") {
+  if (design.variant === "full_bleed_image") {
+    renderedSlide = <FullBleedImageSlide slide={slide} design={design} index={index} />;
+  } else if (design.variant === "chapter_divider") {
     renderedSlide = <ChapterDividerSlide slide={slide} content={content} design={design} index={index} total={total} />;
   } else {
     switch (slide.slide_type) {
