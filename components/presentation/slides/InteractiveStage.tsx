@@ -22,9 +22,15 @@ export function InteractiveStage({ slide, content }: Props) {
 
   if (type === "timeline") {
     return (
-      <section className="relative min-h-[24rem] overflow-hidden py-10" aria-label="Interaktiver Zeitstrahl">
+      <section className="relative min-h-[24rem] overflow-x-auto py-10" aria-label="Interaktiver Zeitstrahl">
         <div className="absolute left-[8%] right-[8%] top-1/2 h-px bg-[#0033A0]/25" />
-        <div className="relative grid min-h-[20rem] items-center" style={{ gridTemplateColumns: `repeat(${Math.max(entries.length, 1)}, minmax(0, 1fr))` }}>
+        <div
+          className="relative grid min-h-[20rem] items-center"
+          style={{
+            gridTemplateColumns: `repeat(${Math.max(entries.length, 1)}, minmax(140px, 1fr))`,
+            minWidth: `${Math.max(entries.length, 1) * 140}px`
+          }}
+        >
           {entries.map((entry, index) => (
             <button
               key={`${entry}-${index}`}
