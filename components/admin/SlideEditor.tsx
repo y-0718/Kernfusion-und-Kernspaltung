@@ -66,11 +66,19 @@ export function SlideEditor({ presentationId, slide, mediaAssets }: SlideEditorP
     setForm((current) => ({ ...current, animation_json: { ...current.animation_json, transition } }));
   }
 
+  function updateInteractiveConfig(partial: Record<string, unknown>) {
+    setForm((current) => ({ ...current, interactive_config: { ...current.interactive_config, ...partial } }));
+  }
+
   function changeType(nextType: SlideType) {
     setForm((current) => ({
       ...current,
       slide_type: nextType,
-      content_json: { ...defaultContentForType(nextType), ...current.content_json }
+      content_json: { ...defaultContentForType(nextType), ...current.content_json },
+      design_json:
+        nextType === "infographic"
+          ? { ...current.design_json, variant: "standard" }
+          : current.design_json
     }));
   }
 
@@ -185,6 +193,11 @@ export function SlideEditor({ presentationId, slide, mediaAssets }: SlideEditorP
             <FieldWrapper label="Haupttext">
               <Textarea value={content.body || ""} onChange={(event) => updateContent({ body: event.target.value })} />
             </FieldWrapper>
+            {design.variant === "chapter_divider" ? (
+              <FieldWrapper label="Kapitelnummer" hint="Zum Beispiel 01, 02 oder A.">
+                <Input value={content.chapterNumber || ""} onChange={(event) => updateContent({ chapterNumber: event.target.value })} />
+              </FieldWrapper>
+            ) : null}
             <FieldWrapper label="Stichpunkte" hint="Ein Stichpunkt pro Zeile.">
               <Textarea
                 value={(content.bullets || []).join("\n")}
@@ -214,20 +227,39 @@ export function SlideEditor({ presentationId, slide, mediaAssets }: SlideEditorP
             ) : null}
             {form.slide_type === "infographic" ? (
               <div className="grid gap-4 md:grid-cols-2">
-                <FieldWrapper label="Visualisierung">
-                  <Select value={content.visualization || "atom_structure"} onChange={(event) => updateContent({ visualization: event.target.value })}>
+                <FieldWrapper label="Interaktiver Folientyp">
+                  <Select
+                    value={String(form.interactive_config.type || content.visualization || "atom_structure")}
+                    onChange={(event) => {
+                      updateContent({ visualization: event.target.value });
+                      updateInteractiveConfig({ type: event.target.value });
+                    }}
+                  >
                     <option value="atom_structure">Atomaufbau</option>
-                    <option value="fission">Kernspaltung</option>
+                    <option value="fission">Kernspaltungssimulation</option>
                     <option value="chain_reaction">Kettenreaktion</option>
-                    <option value="fusion">Kernfusion</option>
+                    <option value="fusion">Kernfusionssimulation</option>
+                    <option value="timeline">Zeitstrahl</option>
+                    <option value="quiz">Quiz</option>
+                    <option value="comparison">Vergleichsvisualisierung</option>
                   </Select>
                 </FieldWrapper>
-                <FieldWrapper label="Beschriftungen" hint="Eine Beschriftung pro Zeile.">
+                <FieldWrapper label="Interaktive Elemente" hint="Ein Zeitpunkt, eine Antwort oder eine Beschriftung pro Zeile.">
                   <Textarea
                     value={(content.labels || []).join("\n")}
                     onChange={(event) => updateContent({ labels: event.target.value.split("\n").filter(Boolean) })}
                   />
                 </FieldWrapper>
+                {String(form.interactive_config.type || content.visualization) === "quiz" ? (
+                  <FieldWrapper label="Richtige Antwort" hint="1 steht für die erste Antwort, 2 für die zweite usw.">
+                    <Input
+                      type="number"
+                      min="1"
+                      value={Number(form.interactive_config.correctIndex ?? 0) + 1}
+                      onChange={(event) => updateInteractiveConfig({ correctIndex: Math.max(0, Number(event.target.value) - 1) })}
+                    />
+                  </FieldWrapper>
+                ) : null}
               </div>
             ) : null}
           </div>
@@ -236,7 +268,19 @@ export function SlideEditor({ presentationId, slide, mediaAssets }: SlideEditorP
         <section className="rounded-md border border-[#0033A0]/10 bg-white p-4 shadow-sm">
           <h2 className="text-lg font-semibold">Medien und Design</h2>
           <div className="mt-4 grid gap-4 md:grid-cols-2">
-            <MediaPicker label="Hauptmedium" value={form.primary_media_id} assets={mediaAssets} onChange={(value) => setForm((current) => ({ ...current, primary_media_id: value }))} />
+            <FieldWrapper label="Foliendesign">
+              <Select value={design.variant || "standard"} onChange={(event) => updateDesign({ variant: event.target.value as SlideDesign["variant"] })}>
+                <option value="full_bleed_image">Vollbildgrafik (PowerPoint/Keynote)</option>
+                <option value="standard">Standardlayout</option>
+                <option value="chapter_divider">Kapiteltrenner</option>
+              </Select>
+            </FieldWrapper>
+            {design.variant === "full_bleed_image" ? (
+              <p className="self-end rounded-md bg-[#EEF4FF] px-3 py-2 text-sm leading-6 text-[#0033A0]">
+                Die Grafik wird vollständig, unverzerrt und nahezu bildschirmfüllend dargestellt. Empfohlen: PNG oder WebP im Format 16:9.
+              </p>
+            ) : null}
+            <MediaPicker label={design.variant === "full_bleed_image" ? "Foliengrafik" : "Hauptmedium"} value={form.primary_media_id} assets={mediaAssets} onChange={(value) => setForm((current) => ({ ...current, primary_media_id: value }))} />
             <MediaPicker label="Hintergrundmedium" value={form.background_media_id} assets={mediaAssets} onChange={(value) => setForm((current) => ({ ...current, background_media_id: value }))} filter="image" />
             <FieldWrapper label="Hintergrundfarbe">
               <Input type="color" value={design.backgroundColor || "#FFFFFF"} onChange={(event) => updateDesign({ backgroundColor: event.target.value })} />

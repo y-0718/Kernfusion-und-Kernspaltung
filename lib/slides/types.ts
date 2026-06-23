@@ -10,6 +10,7 @@ export type SlideType =
 
 export type SlideStatus = "draft" | "published" | "hidden" | "archived";
 export type TransitionType = "fade" | "zoom" | "parallax" | "slide" | "none";
+export type InteractiveType = "atom_structure" | "fission" | "chain_reaction" | "fusion" | "timeline" | "quiz" | "comparison";
 export type SourceType = "website" | "book" | "video" | "paper" | "other";
 
 export type JsonObject = Record<string, unknown>;
@@ -125,6 +126,7 @@ export type PresentationSettings = {
 
 export type SlideContent = {
   eyebrow?: string;
+  chapterNumber?: string;
   body?: string;
   bullets?: string[];
   quote?: string;
@@ -138,6 +140,7 @@ export type SlideContent = {
 };
 
 export type SlideDesign = {
+  variant?: "standard" | "full_bleed_image" | "chapter_divider";
   backgroundColor?: string;
   textAlignment?: "left" | "center" | "right";
   mediaPosition?: "left" | "right";
@@ -154,7 +157,7 @@ export const slideTypeLabels: Record<SlideType, string> = {
   comparison: "Vergleich",
   quote: "Zitat/Kernaussage",
   sources: "Quellen",
-  infographic: "Infografik"
+  infographic: "Interaktive Folie"
 };
 
 export const transitionLabels: Record<TransitionType, string> = {

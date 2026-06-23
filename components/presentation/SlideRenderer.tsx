@@ -8,6 +8,8 @@ import { ComparisonSlide } from "@/components/presentation/slides/ComparisonSlid
 import { QuoteSlide } from "@/components/presentation/slides/QuoteSlide";
 import { SourcesSlide } from "@/components/presentation/slides/SourcesSlide";
 import { InfographicSlide } from "@/components/presentation/slides/InfographicSlide";
+import { ChapterDividerSlide } from "@/components/presentation/slides/ChapterDividerSlide";
+import { FullBleedImageSlide } from "@/components/presentation/slides/FullBleedImageSlide";
 
 type SlideRendererProps = {
   slide: PublicSlide;
@@ -22,33 +24,39 @@ export function SlideRenderer({ slide, sources, index, total }: SlideRendererPro
   const transition = String(slide.animation_json?.transition || "fade");
   let renderedSlide: React.ReactNode;
 
-  switch (slide.slide_type) {
-    case "split_media_text":
-      renderedSlide = <SplitMediaTextSlide slide={slide} content={content} design={design} index={index} total={total} />;
-      break;
-    case "full_image":
-      renderedSlide = <FullImageSlide slide={slide} content={content} design={design} index={index} total={total} />;
-      break;
-    case "video":
-      renderedSlide = <VideoSlide slide={slide} content={content} design={design} index={index} total={total} />;
-      break;
-    case "comparison":
-      renderedSlide = <ComparisonSlide slide={slide} content={content} design={design} index={index} total={total} />;
-      break;
-    case "quote":
-      renderedSlide = <QuoteSlide slide={slide} content={content} design={design} index={index} total={total} />;
-      break;
-    case "sources":
-      renderedSlide = (
-        <SourcesSlide slide={slide} content={content} design={design} sources={sources} index={index} total={total} />
-      );
-      break;
-    case "infographic":
-      renderedSlide = <InfographicSlide slide={slide} content={content} design={design} index={index} total={total} />;
-      break;
-    case "title":
-    default:
-      renderedSlide = <TitleSlide slide={slide} content={content} design={design} index={index} total={total} />;
+  if (design.variant === "full_bleed_image") {
+    renderedSlide = <FullBleedImageSlide slide={slide} design={design} index={index} />;
+  } else if (design.variant === "chapter_divider") {
+    renderedSlide = <ChapterDividerSlide slide={slide} content={content} design={design} index={index} total={total} />;
+  } else {
+    switch (slide.slide_type) {
+      case "split_media_text":
+        renderedSlide = <SplitMediaTextSlide slide={slide} content={content} design={design} index={index} total={total} />;
+        break;
+      case "full_image":
+        renderedSlide = <FullImageSlide slide={slide} content={content} design={design} index={index} total={total} />;
+        break;
+      case "video":
+        renderedSlide = <VideoSlide slide={slide} content={content} design={design} index={index} total={total} />;
+        break;
+      case "comparison":
+        renderedSlide = <ComparisonSlide slide={slide} content={content} design={design} index={index} total={total} />;
+        break;
+      case "quote":
+        renderedSlide = <QuoteSlide slide={slide} content={content} design={design} index={index} total={total} />;
+        break;
+      case "sources":
+        renderedSlide = (
+          <SourcesSlide slide={slide} content={content} design={design} sources={sources} index={index} total={total} />
+        );
+        break;
+      case "infographic":
+        renderedSlide = <InfographicSlide slide={slide} content={content} design={design} index={index} total={total} />;
+        break;
+      case "title":
+      default:
+        renderedSlide = <TitleSlide slide={slide} content={content} design={design} index={index} total={total} />;
+    }
   }
 
   return (
